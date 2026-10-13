@@ -20,24 +20,20 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
+    # Sistem resmi eklentiyle Gradle 8.5 ortamını bulutta tamamen hazır hale getiriyor
     - name: Resmi Gradle Ortamını Kur
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.5'
 
-    # Boş kalan gradlew script dosyasını bulut üzerinde tam ve çalışan orijinal haliyle baştan üretiyoruz
-    - name: Boş Gradle Scriptini Yeniden Üret
-      run: gradle wrapper --gradle-version 8.5
-
-    - name: Gradle Çalıştırma Yetkisi Ver
-      run: chmod +x gradlew
-
-    - name: Projeyi ve APK'yı Derle (Assemble Debug)
-      run: ./gradlew assembleDebug
+    # Hatalı/boş çalışan yerel gradlew yerine doğrudan resmi eklentinin yerleşik motoruyla derleme yapıyoruz
+    - name: Projeyi ve APK'yı Derle (Entegre Gradle Motoru)
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        arguments: assembleDebug
 
     - name: Üretilen APK Dosyasını Otomatik Bul ve Yükle
       uses: actions/upload-artifact@v4
       with:
         name: WhatsAppCleaner-Debug-APK
         path: "**/build/outputs/apk/**/*.apk"
-
