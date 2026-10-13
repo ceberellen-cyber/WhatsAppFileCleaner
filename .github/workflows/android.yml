@@ -20,8 +20,11 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Eksik Gradle Wrapper Dosyalarını Otomatik Üret
-      run: gradle wrapper --gradle-version 8.5
+    # Resmi eklenti ile Gradle motorunu ve eksik wrapper dosyalarını sıfırdan kuruyoruz
+    - name: Resmi Gradle Ortamını Kur
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.5'
 
     - name: Gradle Çalıştırma Yetkisi Ver
       run: chmod +x gradlew
@@ -34,3 +37,4 @@ jobs:
       with:
         name: WhatsAppCleaner-Debug-APK
         path: app/build/outputs/apk/debug/app-debug.apk
+
