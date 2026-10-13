@@ -20,7 +20,6 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    # Resmi eklenti ile Gradle motorunu ve eksik wrapper dosyalarını sıfırdan kuruyoruz
     - name: Resmi Gradle Ortamını Kur
       uses: gradle/actions/setup-gradle@v4
       with:
@@ -32,9 +31,9 @@ jobs:
     - name: Projeyi ve APK'yı Derle (Assemble Debug)
       run: ./gradlew assembleDebug
 
-    - name: Üretilen APK Dosyasını Yükle (Artifact)
+    - name: Üretilen APK Dosyasını Otomatik Bul ve Yükle
       uses: actions/upload-artifact@v4
       with:
         name: WhatsAppCleaner-Debug-APK
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: "**/build/outputs/apk/**/*.apk"
 
