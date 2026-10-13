@@ -11,11 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Depoyu Klonla (Checkout code)
+    - name: Depoyu Klonla
       uses: actions/checkout@v4
 
+    - name: ZIP Arşivini Çıkart
+      run: |
+        if [ -f WhatsAppCleaner_Project.zip ]; then
+          echo "ZIP dosyası bulundu, ayıklanıyor..."
+          unzip -q WhatsAppCleaner_Project.zip -d ./
+          # Eğer dosyalar alt klasöre çıktıysa ana dizine taşıyalım
+          if [ -d "WhatsAppCleaner_Project" ]; then
+            mv WhatsAppCleaner_Project/* .
+          fi
+        else
+          echo "ZIP dosyası ana dizinde bulunamadı!"
+          exit 1
+        fi
+
     - name: Java JDK 17 Kurulumu
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'zulu'
         java-version: '17'
