@@ -1,0 +1,34 @@
+name: Android APK Build Workflow
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Depoyu Klonla (Checkout code)
+      uses: actions/checkout@v4
+
+    - name: Java JDK 17 Kurulumu
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        cache: 'gradle'
+
+    - name: Gradle Çalıştırma Yetkisi Ver
+      run: chmod +x gradlew
+
+    - name: Projeyi ve APK'yı Derle (Assemble Debug)
+      run: ./gradlew assembleDebug
+
+    - name: Üretilen APK Dosyasını Yükle (Artifact)
+      uses: actions/upload-artifact@v4
+      with:
+        name: WhatsAppCleaner-Debug-APK
+        path: app/build/outputs/apk/debug/app-debug.apk
