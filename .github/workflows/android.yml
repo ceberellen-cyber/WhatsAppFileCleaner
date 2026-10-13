@@ -14,26 +14,24 @@ jobs:
     - name: Depoyu Klonla
       uses: actions/checkout@v4
 
-    - name: Java JDK 17 Kurulumu
-      uses: actions/setup-java@v4
+    - name: Java JDK 17 Kurulumu (Güncel v5)
+      uses: actions/setup-java@v5
       with:
         distribution: 'zulu'
         java-version: '17'
 
-    # Sistem resmi eklentiyle Gradle 8.5 ortamını bulutta tamamen hazır hale getiriyor
-    - name: Resmi Gradle Ortamını Kur
+    - name: Resmi Gradle Ortamını Kur (Güncel v4)
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.5'
 
-    # Hatalı/boş çalışan yerel gradlew yerine doğrudan resmi eklentinin yerleşik motoruyla derleme yapıyoruz
-    - name: Projeyi ve APK'yı Derle (Entegre Gradle Motoru)
-      uses: gradle/actions/setup-gradle@v4
-      with:
-        arguments: assembleDebug
+    # Kaldırılan arguments parametresi yerine komutu doğrudan çalıştıran güncel yöntem
+    - name: Projeyi ve APK'yı Derle (Assemble Debug)
+      run: gradle assembleDebug
 
     - name: Üretilen APK Dosyasını Otomatik Bul ve Yükle
       uses: actions/upload-artifact@v4
       with:
         name: WhatsAppCleaner-Debug-APK
         path: "**/build/outputs/apk/**/*.apk"
+
